@@ -30,7 +30,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/showgroup', 'GroupController@index');
 
     Route::get('/foods/{id}', 'FoodsController@show');
+    Route::get('/create', 'FoodsController@create');
 
+    Route::post('foods/added', 'FoodsController@store');
+
+    //Route::resource('/foods', 'FoodsController');
+    //Route::get('/foods/search/{id}', 'FoodsController@search');
 
     Route::get('/nutrient/{id}', 'NutrientController@show');
 });
