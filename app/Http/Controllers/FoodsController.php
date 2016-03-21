@@ -8,8 +8,7 @@ use App\Nutrient;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Route;
+
 
 class FoodsController extends Controller{
 
@@ -32,7 +31,7 @@ class FoodsController extends Controller{
         $nutrients = Nutrient::all();
 
         $group = group::find($request->input('groups'));
-        $food = new food();
+        $food = new Food();
         $food->vi_name = $request->input('vi_name');
         $food->en_name = $request->input('en_name');
 
@@ -44,7 +43,56 @@ class FoodsController extends Controller{
                 $food->nutrients()->attach($nutrient, ['value' => $request->input($nutrient->id)]);
             }
         }
+        return redirect('/');
+    }
 
+    /*public function search($search){
+        return urldecode($search);
+    }*/
+
+    public function destroy($id){
+        $food = Food::findOrFail($id);
+        $food->nutrients()->detach();
+        $food->delete();
+        return redirect('/');
+    }
+
+    public function edit($id){
+        $food = Food::findOrFail($id);
+        $groups = Group::all();
+        $nutrients = Nutrient::all();
+
+
+
+        foreach($food->nutrients as $nutrient){
+            $arr[$nutrient->pivot->nutrient_id] = $nutrient->pivot->value;
+        }
+
+        $arr = $food->nutrients;
+
+        return view('foods.edit', compact('food', 'groups', 'nutrients', 'arr'));
+
+
+    }
+
+    public function update($id, Request $request){
+        $food = Food::findOrFail($id);
+
+        $nutrients = Nutrient::all();
+
+        $group = group::find($request->input('groups'));
+
+        $food->vi_name = $request->input('vi_name');
+        $food->en_name = $request->input('en_name');
+
+        $group->foods()->save($food);
+
+        foreach($nutrients as $nutrient){
+
+            if($request->input($nutrient->id) != ''){
+                $food->nutrients()->attach($nutrient, ['value' => $request->input($nutrient->id)]);
+            }
+        }
 
         return redirect('/');
     }

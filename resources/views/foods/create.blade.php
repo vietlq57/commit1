@@ -1,3 +1,8 @@
+@extends('layouts.app')
+
+@section('title', 'Tạo')
+
+@section('content')
 
 <form method="post" action="{{ url('/foods/added') }}">
     {{ csrf_field() }}
@@ -19,3 +24,4 @@
     @endforeach
     <button type="submit">Tạo</button>
 </form>
+@endsection

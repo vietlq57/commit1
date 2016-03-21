@@ -33,6 +33,22 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/create', 'FoodsController@create');
 
     Route::post('foods/added', 'FoodsController@store');
+    Route::get('/delete/{id}', 'FoodsController@destroy');
+
+    Route::get('/edit/{id}', 'FoodsController@edit');
+    Route::post('/update/{id}', 'FoodsController@update');
+
+    /*Route::get('/foods/searchredirect', function(){
+
+        $search = urlencode(\Illuminate\Support\Facades\Input::get('search'));
+        $route = '/foods/search/$search';
+        return redirect($route);
+
+    });
+
+
+
+    Route::get('/foods/search/{search}', 'FoodsController@search');*/
 
     //Route::resource('/foods', 'FoodsController');
     //Route::get('/foods/search/{id}', 'FoodsController@search');

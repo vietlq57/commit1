@@ -9,7 +9,7 @@ class Food extends Model
 
     protected $table = 'foods';
 
-    public function groups(){
+    public function group(){
         return $this->belongsTo('App\Group');
     }
 
